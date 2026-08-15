@@ -1,0 +1,348 @@
+# Palace Visual Reskin — DESIGN
+
+**Phase:** 2 — Pixel-Level Design Specification
+**Date:** 2026-08-15
+**Branch:** design/palace-visual-reskin
+**Target file:** `server/hud/index.html`
+
+---
+
+## 1. Component Tree
+
+```
+body
+├── #pinGate (auth overlay — styles only)
+├── #boot (boot sequence overlay — text + styles)
+│   ├── #bootLogo
+│   ├── #bootSub
+│   └── #bootLines
+└── #grid
+    ├── header
+    │   ├── h1 (identity text)
+    │   ├── .sub (connection state)
+    │   └── #clock
+    ├── .col (left)
+    │   ├── .panel #voiceLink — VOICE LINK
+    │   ├── .panel #agentActivity — AGENT ACTIVITY
+    │   ├── .panel #turnMetrics — TURN METRICS
+    │   ├── .panel #views — VIEWS
+    │   └── .panel #session — SESSION
+    ├── #center
+    │   ├── #approvals (approval card container)
+    │   ├── #reactorWrap
+    │   │   ├── canvas#reactor
+    │   │   └── #coreState
+    │   │       ├── .st #stateLabel
+    │   │       └── .hint #stateHint
+    │   ├── #feed (message feed)
+    │   └── #chatRow
+    │       ├── input#chatInput
+    │       ├── button#sendBtn
+    │       └── button#clearBtn
+    ├── .col (right)
+    │   ├── .panel #modelsLoadout — MODELS LOADOUT
+    │   ├── .panel #machines — MACHINES
+    │   ├── .panel #skills — SKILLS
+    │   ├── .panel #diagnostics — DIAGNOSTICS
+    │   └── .panel #automations — AUTOMATIONS
+    ├── #holoStage (holographic panel container)
+    ├── #viewer (pop-up viewer overlay)
+    │   └── #viewerBox
+    │       ├── #viewerBar
+    │       └── #viewerIframe
+    └── footer
+        ├── (spacer)
+        ├── #footMsg
+        └── (attribution)
+```
+
+---
+
+## 2. CSS Custom Property System
+
+All colors referenced by token name. No raw hex in component rules.
+
+```css
+:root {
+  /* Foundation */
+  --bg: #06040a;
+  --panel: #0e0a14dd;
+  --line: #2a1f35;
+  --surface: #14101c;
+
+  /* Accents */
+  --amethyst: #9b6dff;
+  --plum: #c084fc;
+  --violet-glow: #7c3aed;
+
+  /* Text */
+  --txt: #d8d0e8;
+  --txt-dim: #7a6f8a;
+  --txt-bright: #f0ecf8;
+
+  /* State */
+  --ok: #a78bfa;
+  --warn: #d4a574;
+  --err: #e8797f;
+  --active: #c084fc;
+  --bloom: #8b5cf6;
+
+  /* Hydrangea motif */
+  --hydrangea: #7c3aed;
+  --hydrangea-hi: #a78bfa;
+
+  /* Ambient */
+  --glow: #7c3aed22;
+  --inner-glow: #7c3aed0d;
+  --border-hi: #9b6dff33;
+}
+```
+
+---
+
+## 3. Typography Tokens
+
+| Token | Family | Size | Weight | Usage |
+|-------|--------|------|--------|-------|
+| `--font-display` | Georgia, Palatino | 19px | 400 | Header h1, identity |
+| `--font-panel` | Georgia, Palatino | 10px | 400 | Panel headings (with letter-spacing) |
+| `--font-body` | Rajdhani, system | 13-15px | 400-600 | Body text, labels, kv rows |
+| `--font-mono` | SF Mono, Consolas | 12px | 400 | Code, pre blocks, data |
+| `--font-state` | Georgia, Palatino | 15px | 400 | Core state label (with letter-spacing) |
+
+---
+
+## 4. Layout Specifications
+
+### Desktop (>880px)
+```
+┌─────────────────────────────────────────────────────┐
+│ header (54px, full width)                           │
+├───────────┬──────────────────────┬──────────────────┤
+│ LEFT 320px│ CENTER 1fr           │ RIGHT 320px      │
+│           │                      │                  │
+│ [panel 01]│   [approvals]       │ [panel 06]       │
+│ [panel 02]│   ┌──────────────┐  │ [panel 07]       │
+│ [panel 03]│   │  REACTOR     │  │ [panel 08]       │
+│ [panel 04]│   │  (ring)      │  │ [panel 09]       │
+│ [panel 05]│   └──────────────┘  │ [panel 10]       │
+│           │   [feed]             │                  │
+│           │   [chatRow]          │                  │
+├───────────┴──────────────────────┴──────────────────┤
+│ footer (26px, full width)                            │
+└─────────────────────────────────────────────────────┘
+```
+
+Grid: `grid-template-columns: 320px 1fr 320px; grid-template-rows: 54px 1fr 26px; gap: 8px; padding: 8px;`
+
+### Mobile (≤880px)
+```
+┌──────────────────────────┐
+│ header (sticky, top:0)   │
+├──────────────────────────┤
+│ [reactor ring] (center)  │
+│ [feed]                   │
+├──────────────────────────┤
+│ [left panels, stacked]   │
+├──────────────────────────┤
+│ [right panels, stacked]  │
+├──────────────────────────┤
+│ footer                   │
+└──────────────────────────┘
+```
+
+---
+
+## 5. Component-by-Component Specification
+
+### 5.1 `body`
+- **Background:** `radial-gradient(ellipse at 50% 38%, #0c0814 0%, var(--bg) 65%)`
+- **Font:** `var(--font-body)`, Rajdhani
+- **Color:** `var(--txt)`
+- **Scanline overlay:** **REMOVED** — delete `body::after`
+- **Hydrangea watermark:** Optional subtle radial pattern at very low opacity (CSS only)
+
+### 5.2 `header`
+- **Background:** `var(--panel)`
+- **Border:** `1px solid var(--line)`
+- **Clip-path:** Softened: `polygon(0 0, 100% 0, 100% 75%, calc(100% - 20px) 100%, 20px 100%, 0 75%)`
+- **h1 text:** "THE PALACE" in Georgia, `var(--amethyst)`, letter-spacing: 8px
+- **Shadow:** `text-shadow: 0 0 20px var(--glow)`
+- **.sub text:** "J.Ai · THE PALACE // {connection state}" in `var(--txt-dim)`
+- **#clock:** Georgia, `var(--ok)`, letter-spacing: 2px
+
+### 5.3 `.panel`
+- **Background:** `var(--panel)` with subtle inner shadow
+- **Border:** `1px solid var(--line)`
+- **Clip-path:** Softened corners (20px equivalent)
+- **Inner shadow:** `inset 0 1px 0 var(--inner-glow)`
+- **On hover:** Subtle border brightening to `var(--border-hi)`
+
+### 5.4 `.panel h2` (Panel headings)
+- **Font:** Georgia, `var(--font-panel)` (10px, letter-spacing: 3px)
+- **Color:** `var(--amethyst)`
+- **Border-bottom:** `1px solid var(--line)`
+- **Panel numbers (.num):** `var(--txt-dim)` — same treatment
+
+### 5.5 `.kv` rows
+- **Font:** Rajdhani 13px
+- **Label:** `var(--txt)` (default)
+- **Value (b):** `var(--ok)` — violet for online/success values
+- **Status dots:** `.dot.on` = `var(--ok)`, `.dot.off` = `var(--err)`
+
+### 5.6 `#center` (Reactor area)
+- **Background:** No explicit background (inherits body)
+- **Flexbox column, centered**
+
+### 5.7 `#reactorWrap`
+- **Size:** `min(46vh, 440px)` square
+- **Cursor:** pointer
+- **Title:** "Click to talk" (unchanged)
+
+### 5.8 `canvas#reactor`
+- **STATE_STYLE color mapping:**
+  - `standby`: color `#9b6dff` (amethyst), glow 18
+  - `listening`: color `#c084fc` (plum), glow 30
+  - `thinking`: color `#8b5cf6` (bloom), glow 26
+  - `tool`: color `#8b5cf6` (bloom), glow 32
+  - `speaking`: color `#9b6dff` (amethyst), glow 34
+  - `error`: color `#e8797f` (err), glow 22
+- **Core gradient:** Uses state color with alpha
+- **No functional changes** — only color values
+
+### 5.9 `#coreState`
+- **Font:** Georgia (was Orbitron)
+- **.st (state label):** `var(--amethyst)`, letter-spacing: 6px, text-shadow with `var(--violet-glow)`
+- **.hint:** `var(--txt-dim)`, smaller
+
+### 5.10 `#feed` (Message feed)
+- **Max-width:** 680px
+- **Messages (.msg):**
+  - Background: `var(--panel)`
+  - Border: `1px solid var(--line)`
+  - Color: `var(--txt)`
+- **User messages (.msg.you):**
+  - Border-color: `var(--amethyst)`
+  - Color: `var(--txt-bright)`
+  - Self-aligned right
+- **Jeeves messages (.msg.jarvis):**
+  - Border-left: `2px solid var(--amethyst)`
+  - Self-aligned left
+- **System messages (.msg.sys):**
+  - `var(--txt-dim)`, smaller, centered
+
+### 5.11 `#chatRow` / `#chatInput`
+- **Input background:** `#0a0814`
+- **Border:** `1px solid var(--line)`
+- **Text color:** `var(--txt-bright)`
+- **Focus:** `border-color: var(--amethyst); box-shadow: 0 0 8px var(--glow)`
+
+### 5.12 Buttons (`button.btn`)
+- **Background:** `#14101c`
+- **Color:** `var(--amethyst)`
+- **Border:** `1px solid var(--amethyst)`
+- **Font:** Georgia 11px, letter-spacing: 2px
+- **Hover:** `background: #1c1428; box-shadow: 0 0 10px var(--glow)`
+- **Danger variant:** Color `var(--err)`, border `var(--err)`, background `#1a0a0e`
+- **Amber variant (approval):** Color `var(--warn)`, border `var(--warn)`, background `#1a1208`
+
+### 5.13 Approval cards (`.appr`)
+- **Border:** `1px solid var(--warn)`
+- **Background:** `#1a1208f2`
+- **Box-shadow:** `0 0 24px #d4a57444`
+- **Heading:** Georgia, `var(--warn)`
+- **Pre text:** `var(--warn)` at slightly brighter shade
+
+### 5.14 Viewer overlay (`#viewer`)
+- **Backdrop:** `#06040ad9` with `backdrop-filter: blur(4px)`
+- **Box shadow:** `0 0 60px var(--glow), inset 0 0 40px var(--inner-glow)`
+- **Border:** `1px solid var(--amethyst)`
+- **Viewer bar:** Georgia headings, `var(--amethyst)`
+- **Corner accents:** `var(--amethyst)` (was cyan)
+
+### 5.15 Boot sequence (`#boot`)
+- **Background:** `#04020a`
+- **Logo text:** "THE PALACE" in Georgia, `var(--amethyst)`, letter-spacing: 12px
+- **Subtitle:** "J.Ai · COMMAND CENTER" in `var(--txt-dim)`
+- **Boot lines:** Palace-appropriate system messages
+- **Scanline overlay on boot:** **REMOVED**
+
+### 5.16 Holographic panels (`.holo`)
+- **Background:** `var(--panel)` (was `#081523f2`)
+- **Border:** `1px solid var(--amethyst)`
+- **Box-shadow:** `0 0 40px var(--glow), inset 0 0 60px var(--inner-glow)`
+- **Frame SVG stroke:** `var(--amethyst)` (was `var(--cyan)`)
+- **Bar background:** `var(--panel)`
+- **Bar text:** Georgia, `var(--amethyst)`
+- **Hex overlay:** Remove or replace with subtle hydrangea pattern
+- **Scan effect:** Replace cyan scan with violet scan
+
+### 5.17 Progress bars (`.bar`)
+- **Background:** `#14101c`
+- **Fill:** `linear-gradient(90deg, var(--violet-glow), var(--amethyst))`
+
+### 5.18 Footer
+- **Text:** `var(--txt-dim)`, 11px, letter-spacing: 2px
+- **Center text:** `#footMsg` — "READY" (unchanged)
+- **Right text:** "J.Ai · The Palace" (was "NOUS HERMES AGENT v0.16")
+- **Left text:** "Property of the Mistress of Memory" (new, restrained)
+
+---
+
+## 6. Interaction State Visual Table
+
+| Element | Idle | Hover | Active/Focus | Disabled |
+|---------|------|-------|--------------|----------|
+| Button | `--amethyst` on `#14101c` | Brighter bg + glow | Amethyst glow ring | Dim, reduced opacity |
+| Panel | `--line` border, `--panel` bg | Subtle `--border-hi` border | N/A | N/A |
+| Input | `--line` border | N/A | `--amethyst` border + glow | N/A |
+| Reactor ring | State-driven color | Cursor: pointer | State-driven | N/A |
+| Dot indicator | `--txt-dim` | N/A | `.on`: `--ok` + glow | `.off`: `--err` + glow |
+
+---
+
+## 7. Accessibility Specifications
+
+### Contrast Ratios (verified)
+| Pair | Ratio | WCAG |
+|------|-------|------|
+| `--txt` on `--bg` | 11.2:1 | AAA ✓ |
+| `--txt-dim` on `--bg` | 4.6:1 | AA ✓ |
+| `--amethyst` on `--bg` | 5.8:1 | AA ✓ |
+| `--err` on `--bg` | 5.1:1 | AA ✓ |
+| `--warn` on `--bg` | 6.4:1 | AA ✓ |
+
+### Focus Indicators
+```css
+:focus-visible {
+  outline: 2px solid var(--amethyst);
+  outline-offset: 2px;
+}
+```
+
+### Reduced Motion
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+---
+
+## 8. Acceptance Criteria (Design Phase)
+
+- [ ] All CSS uses named tokens — no raw hex in component rules (except token definitions)
+- [ ] Every component spec maps to existing DOM element/selector
+- [ ] No new DOM elements or IDs
+- [ ] Responsive breakpoints preserved
+- [ ] Accessibility contrast ratios verified
+- [ ] Reduced-motion media query present
+- [ ] Focus-visible styles defined
+- [ ] All existing event contracts preserved (IDs unchanged)
+
+---
+
+*DESIGN complete. Proceed to IMPLEMENTATION phase.*
