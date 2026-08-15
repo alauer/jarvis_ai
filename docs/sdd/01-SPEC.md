@@ -14,14 +14,16 @@ Transform the existing `jarvis_ai` Iron Man-themed HUD into an appearance that r
 
 ### What this covers
 - CSS custom property palette replacement (obsidian/violet/pearl)
-- Typography swap from Orbitron/Rajdhani to Palace-appropriate faces
-- Panel clip-path geometry softening
+- Typography swap from Orbitron to Palace-appropriate system serif (Georgia) and system sans-serif (Segoe UI/system-ui) — **no external CDN fonts**
+- Panel clip-path geometry replaced with CSS `border-radius` for softer, composed panels
 - Header, footer, boot sequence, and status label text rebranding
-- Canvas arc-reactor state color mapping to Palace palette
-- Removal of scanline overlay, Iron Man visual chrome
-- Hydrangea-inspired restrained ambient detail (CSS-only, no external assets)
+- Canvas arc-reactor state color mapping to Palace palette (calmer speeds/glow)
+- Removal of scanline overlay and Iron Man visual chrome
+- Hydrangea-inspired restrained ambient detail: CSS-only radial gradient watermark at low opacity, with smoked glass luminance depth band
 - Responsive layout preservation for desktop, iPad, and narrow viewports
-- Dark/light polish: subtle inner glow, fine engraved borders, smoked glass
+- Dark/light polish: subtle inner glow, fine engraved borders, smoked glass panel backgrounds, hover interactions
+- Decorative panel numbers hidden
+- Rounded/beveled controls: buttons, inputs, chat messages, approval cards
 - Anti-pattern and aesthetic guardrails documented below
 
 ### What this does NOT cover
@@ -118,10 +120,11 @@ font-family: 'Georgia', 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
 For identity/header: elegant, composed, not sci-fi. Georgia is universally available and reads as intentional, not default.
 
 ### Body / Operational text
-**Primary choice:** Keep Rajdhani (already loaded from Google Fonts in the repo) — it is elegant, legible, and Palace-appropriate. No change needed.
+**Primary choice:** System sans-serif stack — no external CDN dependency.
 ```
-font-family: 'Rajdhani', 'Segoe UI', system-ui, sans-serif;
+font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 ```
+System sans-serif provides excellent legibility across platforms. No runtime font downloads required.
 
 ### Monospace / Data
 **Primary choice:** System monospace stack — no dependency.
@@ -184,7 +187,8 @@ Replace Orbitron (sci-fi angular) with Georgia for panel headings. Georgia at sm
 - ❌ Circuit-board texture patterns
 - ❌ Floral wallpaper or grandmother's sitting room
 - ❌ Purple-for-cyan substitution (must read as coherent material reskin, not color swap)
-- ❌ Runtime CDN dependencies for fonts
+- ❌ Runtime CDN dependencies for fonts (all fonts must be system-installed)
+- ❌ Google Fonts, fonts.googleapis.com, or any external font loading
 - ❌ DOM restructuring beyond cosmetic wrappers
 - ❌ New JavaScript logic or event handling
 
@@ -223,7 +227,7 @@ All breakpoints must preserve:
 
 - [ ] No cyan, teal, or neon colors anywhere in the rendered output
 - [ ] Georgia-based headings read as intentional serif, not default fallback
-- [ ] Rajdhani body text retained and legible
+- [ ] System sans-serif body text legible across platforms — no external font loading
 - [ ] All 10 panels visible with correct content
 - [ ] Reactor ring uses amethyst/violet palette
 - [ ] Scanline overlay completely removed
@@ -236,20 +240,27 @@ All breakpoints must preserve:
 - [ ] Console free of errors on load
 - [ ] No new DOM elements that break existing JS selectors
 - [ ] All existing element IDs preserved
-- [ ] No new runtime dependencies added
+- [ ] No new runtime dependencies added (no CDN fonts, no external assets)
 - [ ] No functional behavior changes in JS or Python
+- [ ] Visual evidence: desktop screenshot at 1440×900 or 1920×1080
+- [ ] Visual evidence: mobile screenshot at exactly 390×844 or 375×812
+- [ ] Screenshots stored under docs/review/ with verifiable dimensions
 
 ---
 
 ## 13. Open Questions
 
 **Resolved during authoring:**
-- [x] Fonts: Use Georgia (system serif) + existing Rajdhani — no new dependencies
-- [x] Hydrangea motif: CSS-only radial gradient watermark — no external assets
+- [x] Fonts: Use Georgia (system serif) + system sans-serif — no external dependencies, no Google Fonts
+- [x] Hydrangea motif: CSS-only radial gradient watermark with smoked glass luminance band — no external assets
 - [x] Boot text: Replace with Palace-appropriate greeting
 - [x] Footer attribution: "J.Ai · The Palace" — single instance
-- [x] Canvas colors: Map STATE_STYLE to Palace accent palette
+- [x] Canvas colors: Map STATE_STYLE to Palace accent palette with calmer speeds/glow
 - [x] Mobile: Preserve existing breakpoints, update colors only
+- [x] Panel geometry: Replace clip-path with border-radius for softer composed aesthetic
+- [x] Panel numbers: Hidden (.num display:none) — not part of Palace visual language
+- [x] Controls: Rounded/beveled buttons, inputs, messages, approval cards
+- [x] Visual evidence: Screenshots captured at required desktop/mobile dimensions
 
 ---
 

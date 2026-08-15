@@ -13,9 +13,9 @@ The entire visual reskin targets **one file**: `server/hud/index.html`. Changes 
 
 | Zone | Lines (approx) | Changes |
 |------|----------------|---------|
-| CSS (`<style>`) | 1-235 | Replace tokens, remove scanlines, update all selectors |
-| HTML (`<body>`) | 236-359 | Update text labels, branding, boot text |
-| JavaScript | 361-883 | Update STATE_STYLE colors, boot text, branding strings |
+| CSS (`<style>`) | 1-260 | Replace tokens, remove scanlines, update all selectors, add hydrangea watermark, add smoked glass depth, border-radius geometry |
+| HTML (`<body>`) | 261-375 | Update text labels, branding, boot text |
+| JavaScript | 376-904 | Update STATE_STYLE colors/speeds/glow, boot text, branding strings |
 
 ---
 
@@ -207,7 +207,9 @@ Store under: `docs/review/baseline/`
 | Check | Method | Pass Criteria |
 |-------|--------|---------------|
 | No cyan/teal in CSS | `grep -c '#00e5ff\|#19f0d8\|#0a7f96\|#0e2c40'` | 0 matches |
-| No Orbitron in CSS | `grep -c "Orbitron"` | 0 matches in style rules (may remain in font-family for backwards compat if needed, but we remove it) |
+| No Orbitron in CSS | `grep -c "Orbitron"` | 0 matches |
+| No Google Fonts links | `grep -c 'fonts.googleapis\|fonts.gstatic'` | 0 matches |
+| No Rajdhani references | `grep -c 'Rajdhani'` | 0 matches |
 | All element IDs preserved | `diff <original IDs> <new IDs>` | Identical set |
 | Boot text updated | Visual check | "THE PALACE" visible |
 | Header text updated | Visual check | "THE PALACE" in header |
@@ -218,17 +220,22 @@ Store under: `docs/review/baseline/`
 | Mobile layout works | Resize to 375px | Panels stack, all content accessible |
 | Console clean | Browser DevTools | No errors on load |
 | No new DOM elements | Diff check | Only text content changes |
-| No JS logic changes | Diff check | Only string/color values changed |
+| No JS logic changes | Diff check | Only string/color/speed values changed |
 | `git diff --check` | Terminal | No whitespace errors |
+| Desktop screenshot | 1440×900 or 1920×1080 | Required dimensions verified |
+| Mobile screenshot | 390×844 or 375×812 | Required dimensions verified |
 
 ---
 
 ## 5. Known Constraints
 
-1. **Google Fonts link stays** for Rajdhani — it is already in the repo and provides the body font. We remove the Orbitron load.
-2. **Canvas arc-reactor ring** remains as the presence indicator. Only colors change. Future phases may replace with avatar/presence.
+1. **No external font dependencies.** All fonts are system-installed (Georgia, Segoe UI, SF Mono, etc.). Google Fonts links have been removed entirely. This ensures the HUD works offline and loads instantly.
+2. **Canvas arc-reactor ring** remains as the presence indicator. Colors, speeds, and glow values are calmer than the original. Future phases may replace with avatar/presence.
 3. **Holographic panel animations** retain their complexity (holoApproach, holoDismiss, etc.) — only color references change.
 4. **PWA meta tags** update to "The Palace" branding.
+5. **Panel geometry** uses CSS `border-radius` instead of `clip-path` for softer, composed panels.
+6. **Panel numbers** (.num) are hidden — not part of Palace visual language.
+7. **Hydrangea motif** is CSS-only: radial gradient watermark at 4.5% opacity + smoked glass luminance depth band.
 
 ---
 

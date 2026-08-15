@@ -8,8 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="The Palace">
 <meta name="theme-color" content="#06040a">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- No runtime CDN fonts — system stacks only -->
 <style>
 :root{
   --bg:#06040a; --panel:#0e0a14dd; --line:#2a1f35; --surface:#14101c;
@@ -24,29 +23,57 @@
 html,body{height:100%}
 body{
   background:radial-gradient(ellipse at 50% 38%, #0c0814 0%, var(--bg) 65%);
-  color:var(--txt); font-family:'Rajdhani','Segoe UI',system-ui,sans-serif; overflow:hidden;
+  color:var(--txt); font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif; overflow:hidden;
+}
+/* Hydrangea bloom watermark — CSS-only, low-opacity ambient geometry */
+body::before{
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  opacity:.045; mix-blend-mode:screen;
+  background:
+    radial-gradient(ellipse 420px 380px at 12% 20%, #8b5cf6 0%, transparent 70%),
+    radial-gradient(ellipse 200px 180px at 17% 15%, #a78bfa 0%, transparent 65%),
+    radial-gradient(ellipse 300px 260px at 9% 28%, #c084fc 0%, transparent 72%),
+    radial-gradient(ellipse 260px 220px at 15% 24%, #7c3aed 0%, transparent 68%),
+    radial-gradient(ellipse 380px 340px at 88% 80%, #7c3aed 0%, transparent 70%),
+    radial-gradient(ellipse 180px 160px at 92% 75%, #9b6dff 0%, transparent 62%),
+    radial-gradient(ellipse 280px 240px at 85% 85%, #a78bfa 0%, transparent 68%),
+    radial-gradient(ellipse 220px 200px at 50% 48%, #8b5cf6 0%, transparent 75%);
+}
+/* Smoked glass depth accent — very subtle horizontal luminance band */
+body::after{
+  content:''; position:fixed; left:0; right:0; top:30%; height:40%;
+  pointer-events:none; z-index:0;
+  background:linear-gradient(180deg, transparent 0%, rgba(155,109,255,.012) 35%, rgba(124,58,237,.018) 50%, rgba(155,109,255,.012) 65%, transparent 100%);
 }
 #grid{display:grid; grid-template-columns:320px 1fr 320px; grid-template-rows:54px 1fr 26px; height:100vh; gap:8px; padding:8px}
 header{
   grid-column:1/4; display:flex; align-items:center; justify-content:space-between;
-  border:1px solid var(--line); background:var(--panel); padding:0 18px;
-  clip-path:polygon(0 0,100% 0,100% 75%,calc(100% - 20px) 100%,20px 100%,0 75%);
+  border:1px solid var(--line); border-radius:10px 10px 0 0;
+  background:linear-gradient(180deg, #120e1a 0%, var(--panel) 100%);
+  padding:0 18px;
+  box-shadow:inset 0 1px 0 rgba(155,109,255,.06), 0 1px 3px rgba(0,0,0,.3);
 }
-header h1{font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:19px; letter-spacing:8px; color:var(--amethyst); text-shadow:0 0 20px var(--glow)}
+header h1{font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:19px; letter-spacing:3px; color:var(--amethyst); text-shadow:0 0 12px var(--glow); text-transform:uppercase}
 header .sub{font-size:12px; letter-spacing:3px; color:var(--txt-dim)}
 #clock{font-family:Georgia,serif; font-size:15px; letter-spacing:2px; color:var(--ok)}
 .col{display:flex; flex-direction:column; gap:8px; overflow-y:auto; scrollbar-width:thin; scrollbar-color:var(--line) transparent}
 .panel{
-  border:1px solid var(--line); background:var(--panel); padding:10px 12px; position:relative;
-  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
-  box-shadow:inset 0 1px 0 var(--inner-glow);
+  border:1px solid var(--line); border-radius:10px;
+  background:linear-gradient(165deg, rgba(18,14,26,.94) 0%, rgba(12,9,18,.9) 50%, rgba(14,10,20,.88) 100%);
+  padding:10px 12px; position:relative;
+  box-shadow:inset 0 1px 0 rgba(155,109,255,.06), inset 0 -1px 0 rgba(0,0,0,.2),
+             0 2px 8px rgba(0,0,0,.25), 0 0 0 1px rgba(155,109,255,.03);
+  transition:border-color .2s, box-shadow .2s;
 }
 .panel h2{
-  font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:10px; letter-spacing:3px; color:var(--amethyst);
+  font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:11px; letter-spacing:1.5px; color:var(--amethyst);
+  text-transform:capitalize;
   border-bottom:1px solid var(--line); padding-bottom:5px; margin-bottom:7px;
   display:flex; justify-content:space-between;
 }
-.panel h2 .num{color:var(--txt-dim)}
+.panel h2 .num{display:none}
+.panel:hover{border-color:var(--border-hi); box-shadow:inset 0 1px 0 rgba(155,109,255,.08), inset 0 -1px 0 rgba(0,0,0,.2),
+             0 2px 10px rgba(0,0,0,.3), 0 0 0 1px rgba(155,109,255,.06)}
 .kv{display:flex; justify-content:space-between; font-size:13px; padding:1.5px 0}
 .kv b{color:var(--ok); font-weight:600; text-align:right; max-width:60%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
 .ok{color:var(--ok)} .warn{color:var(--warn)} .err{color:var(--err)}
@@ -54,39 +81,43 @@ header .sub{font-size:12px; letter-spacing:3px; color:var(--txt-dim)}
 .dot.on{background:var(--ok); box-shadow:0 0 6px var(--ok)}
 .dot.off{background:var(--err); box-shadow:0 0 6px var(--err)}
 #center{display:flex; flex-direction:column; align-items:center; justify-content:flex-start; position:relative; overflow:hidden}
-#reactorWrap{position:relative; width:min(46vh,440px); height:min(46vh,440px); cursor:pointer; flex-shrink:0}
+#reactorWrap{position:relative; width:min(38vh,360px); height:min(38vh,360px); cursor:pointer; flex-shrink:0; margin:16px 0 8px}
 #reactor{width:100%; height:100%}
 #coreState{
   position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
   pointer-events:none; font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif;
 }
-#coreState .st{font-size:15px; letter-spacing:6px; color:var(--amethyst); text-shadow:0 0 14px var(--violet-glow)}
+#coreState .st{font-size:14px; letter-spacing:3px; color:var(--amethyst); text-shadow:0 0 10px var(--violet-glow); text-transform:uppercase}
 #coreState .hint{font-size:9px; letter-spacing:2px; color:var(--txt-dim); margin-top:6px}
 #feed{
   width:100%; max-width:680px; flex:1; overflow-y:auto; margin-top:4px; padding:0 10px;
   display:flex; flex-direction:column; gap:6px; scrollbar-width:thin;
 }
-.msg{font-size:14.5px; line-height:1.35; padding:7px 11px; border:1px solid var(--line); background:var(--panel); max-width:88%}
+.msg{font-size:14.5px; line-height:1.35; padding:7px 11px; border:1px solid var(--line); border-radius:8px;
+  background:var(--panel); max-width:88%}
 .msg.you{align-self:flex-end; border-color:#205a6e; color:#cfeefb}
 .msg.jarvis{align-self:flex-start; border-left:2px solid var(--amethyst)}
 .msg.sys{align-self:center; color:var(--txt-dim); font-size:12px; border:none; background:none; padding:2px}
 #chatRow{display:flex; gap:8px; width:100%; max-width:680px; padding:8px 10px}
 #chatInput{
-  flex:1; background:#0a0814; border:1px solid var(--line); color:var(--txt-bright); padding:9px 12px;
-  font-family:'Rajdhani',sans-serif; font-size:15px; outline:none;
+  flex:1; background:#0a0814; border:1px solid var(--line); border-radius:8px;
+  color:var(--txt-bright); padding:9px 12px;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif; font-size:14px; outline:none;
 }
 #chatInput:focus{border-color:var(--amethyst); box-shadow:0 0 8px var(--glow)}
 button.btn{
-  background:#14101c; color:var(--amethyst); border:1px solid var(--amethyst); padding:9px 16px;
-  font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:11px; letter-spacing:2px; cursor:pointer;
+  background:linear-gradient(180deg, #1a1528 0%, #14101c 100%); color:var(--amethyst);
+  border:1px solid rgba(155,109,255,.35); border-radius:6px; padding:8px 14px;
+  font-family:'Segoe UI',system-ui,-apple-system,sans-serif; font-size:11px; letter-spacing:1.5px; cursor:pointer;
+  transition:background .15s, box-shadow .15s, border-color .15s;
 }
-button.btn:hover{background:#1c1428; box-shadow:0 0 10px var(--glow)}
+button.btn:hover{background:linear-gradient(180deg, #221c34 0%, #1c1428 100%); border-color:var(--amethyst); box-shadow:0 0 10px var(--glow)}
 button.btn.danger{color:var(--err); border-color:#5a2030; background:#1a0a0e}
 button.btn.danger:hover{background:#2a1018; box-shadow:0 0 10px #e8797f44}
 button.btn.amber{color:var(--warn); border-color:#5a4020; background:#1a1208}
 #stopBtn{display:none}
 #approvals{position:absolute; top:8px; left:50%; transform:translateX(-50%); z-index:20; width:min(560px,92%); display:flex; flex-direction:column; gap:8px}
-.appr{border:1px solid var(--warn); background:#1a1208f2; padding:12px 14px;
+.appr{border:1px solid var(--warn); border-radius:10px; background:#1a1208f2; padding:12px 14px;
   box-shadow:0 0 24px #d4a57444; animation:apprIn .25s ease-out}
 @keyframes apprIn{from{transform:translateY(-12px);opacity:0}to{transform:none;opacity:1}}
 .appr h3{font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:11px; letter-spacing:3px; color:var(--warn); margin-bottom:6px}
@@ -98,9 +129,9 @@ button.btn.amber{color:var(--warn); border-color:#5a4020; background:#1a1208}
   background:#06040ad9; backdrop-filter:blur(4px)}
 #viewer.open{display:flex}
 #viewerBox{width:90%; height:90%; position:relative; background:var(--bg);
-  border:1px solid var(--amethyst); box-shadow:0 0 60px var(--glow), inset 0 0 40px var(--inner-glow);
-  animation:viewIn .32s cubic-bezier(.2,.9,.3,1.2);
-  clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))}
+  border:1px solid var(--amethyst); border-radius:12px;
+  box-shadow:0 0 60px var(--glow), inset 0 0 40px var(--inner-glow);
+  animation:viewIn .32s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes viewIn{from{transform:scale(.88) translateY(20px);opacity:0}to{transform:none;opacity:1}}
 #viewerBar{display:flex; align-items:center; justify-content:space-between; height:40px;
   padding:0 14px; border-bottom:1px solid var(--line); background:var(--panel)}
@@ -108,10 +139,7 @@ button.btn.amber{color:var(--warn); border-color:#5a4020; background:#1a1208}
   text-shadow:0 0 10px var(--glow)}
 #viewerBar .vbtns{display:flex; gap:8px}
 #viewerIframe{width:100%; height:calc(100% - 40px); border:0; background:var(--bg)}
-#viewerBox::before,#viewerBox::after{content:""; position:absolute; width:26px; height:26px;
-  border:2px solid var(--amethyst); pointer-events:none}
-#viewerBox::before{top:-2px; left:-2px; border-right:none; border-bottom:none}
-#viewerBox::after{bottom:-2px; right:-2px; border-left:none; border-top:none}
+#viewerBox::before,#viewerBox::after{display:none}
 .viewBtn{display:block; width:100%; text-align:left; margin-bottom:6px}
 
 /* ---------------- boot sequence ---------------- */
@@ -119,11 +147,11 @@ button.btn.amber{color:var(--warn); border-color:#5a4020; background:#1a1208}
   flex-direction:column; align-items:center; justify-content:center; transition:opacity .7s}
 #boot.done{opacity:0; pointer-events:none}
 
-#bootLogo{font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:clamp(22px,5vw,38px); letter-spacing:14px;
-  color:var(--amethyst); text-shadow:0 0 34px var(--violet-glow); animation:bootPulse 1.4s ease-in-out infinite}
-#bootSub{font-size:11px; letter-spacing:6px; color:var(--txt-dim); margin-top:10px}
+#bootLogo{font-family:Georgia,'Palatino Linotype','Book Antiqua',Palatino,serif; font-size:clamp(22px,5vw,36px); letter-spacing:5px; text-transform:uppercase;
+  color:var(--amethyst); text-shadow:0 0 24px var(--violet-glow); animation:bootPulse 1.4s ease-in-out infinite}
+#bootSub{font-size:11px; letter-spacing:3px; color:var(--txt-dim); margin-top:10px}
 #bootLines{margin-top:30px; font-size:13px; letter-spacing:2px; color:var(--txt-dim);
-  width:min(360px,80vw); min-height:140px; font-family:'Rajdhani'}
+  width:min(360px,80vw); min-height:140px; font-family:'SF Mono','Cascadia Code','Fira Code',Consolas,monospace}
 #bootLines div{opacity:0; animation:lineIn .2s forwards; padding:2px 0}
 #bootLines div b{color:var(--ok); float:right}
 @keyframes lineIn{to{opacity:1}}
@@ -144,9 +172,8 @@ body.booted header{animation:panelIn .4s backwards}
   --enterRotY:-20deg; --bankX:0px;
   width:min(62vw,900px); height:min(58vh,540px);
   left:50%; top:45%; translate:-50% -50%;
-  background:var(--panel); border:1px solid var(--amethyst);
+  background:var(--panel); border:1px solid var(--amethyst); border-radius:12px;
   box-shadow:0 0 40px var(--glow), inset 0 0 60px var(--inner-glow);
-  clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));
   animation:holoApproach .65s cubic-bezier(.34,1.56,.64,1) both}
 .holo.pos-left{left:19%; --enterRotY:38deg; --bankX:-55vw; width:min(31vw,480px); height:min(40vh,380px)}
 .holo.pos-right{left:81%; --enterRotY:-38deg; --bankX:55vw; width:min(31vw,480px); height:min(40vh,380px)}
@@ -206,12 +233,12 @@ body.booted header{animation:panelIn .4s backwards}
   body{overflow-y:auto; overflow-x:hidden}
   #grid{display:flex; flex-direction:column; height:auto; min-height:100dvh; gap:8px}
   header{position:sticky; top:0; z-index:15; flex-shrink:0}
-  header h1{font-size:15px; letter-spacing:4px}
+  header h1{font-size:15px; letter-spacing:2px}
   header .sub{display:none}
   #clock{font-size:12px}
   #center{order:1; min-height:0}
-  #reactorWrap{width:min(62vw,260px); height:min(62vw,260px)}
-  #coreState .st{font-size:12px; letter-spacing:4px}
+  #reactorWrap{width:min(50vw,200px); height:min(50vw,200px); margin:8px 0}
+  #coreState .st{font-size:11px; letter-spacing:2px}
   #coreState .hint{font-size:8px}
   #feed{max-height:34dvh; min-height:90px}
   .col{order:2; overflow:visible; flex-shrink:0}
@@ -385,12 +412,12 @@ function sizeCanvas(){const r=cv.parentElement.getBoundingClientRect();cv.width=
 sizeCanvas(); addEventListener("resize",sizeCanvas);
 let rot=0;
 const STATE_STYLE={
-  standby:{speed:.15,color:"#9b6dff",glow:18,pulse:0},
-  listening:{speed:.5,color:"#c084fc",glow:30,pulse:1},
-  thinking:{speed:1.6,color:"#8b5cf6",glow:26,pulse:.4},
-  tool:{speed:2.4,color:"#8b5cf6",glow:32,pulse:.6},
-  speaking:{speed:.7,color:"#9b6dff",glow:34,pulse:.8},
-  error:{speed:.05,color:"#e8797f",glow:22,pulse:0},
+  standby:{speed:.08,color:"#9b6dff",glow:12,pulse:0},
+  listening:{speed:.3,color:"#c084fc",glow:22,pulse:.8},
+  thinking:{speed:.9,color:"#8b5cf6",glow:18,pulse:.3},
+  tool:{speed:1.2,color:"#8b5cf6",glow:24,pulse:.5},
+  speaking:{speed:.4,color:"#9b6dff",glow:26,pulse:.6},
+  error:{speed:.03,color:"#e8797f",glow:14,pulse:0},
 };
 function drawRing(cx,cy,r,w,color,alpha,dash,offset){
   ctx.beginPath(); ctx.strokeStyle=color; ctx.globalAlpha=alpha; ctx.lineWidth=w;

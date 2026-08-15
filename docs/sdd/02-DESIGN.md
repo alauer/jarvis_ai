@@ -105,10 +105,12 @@ All colors referenced by token name. No raw hex in component rules.
 | Token | Family | Size | Weight | Usage |
 |-------|--------|------|--------|-------|
 | `--font-display` | Georgia, Palatino | 19px | 400 | Header h1, identity |
-| `--font-panel` | Georgia, Palatino | 10px | 400 | Panel headings (with letter-spacing) |
-| `--font-body` | Rajdhani, system | 13-15px | 400-600 | Body text, labels, kv rows |
+| `--font-panel` | Georgia, Palatino | 11px | 400 | Panel headings (with letter-spacing) |
+| `--font-body` | Segoe UI, system-ui | 13-15px | 400-600 | Body text, labels, kv rows, buttons |
 | `--font-mono` | SF Mono, Consolas | 12px | 400 | Code, pre blocks, data |
-| `--font-state` | Georgia, Palatino | 15px | 400 | Core state label (with letter-spacing) |
+| `--font-state` | Georgia, Palatino | 14px | 400 | Core state label (with letter-spacing) |
+
+**Note:** All fonts are system-installed. No external CDN font loading.
 
 ---
 
@@ -157,35 +159,40 @@ Grid: `grid-template-columns: 320px 1fr 320px; grid-template-rows: 54px 1fr 26px
 
 ### 5.1 `body`
 - **Background:** `radial-gradient(ellipse at 50% 38%, #0c0814 0%, var(--bg) 65%)`
-- **Font:** `var(--font-body)`, Rajdhani
+- **Font:** System sans-serif (`Segoe UI`, `system-ui`, `-apple-system`, `BlinkMacSystemFont`, `sans-serif`)
 - **Color:** `var(--txt)`
-- **Scanline overlay:** **REMOVED** — delete `body::after`
-- **Hydrangea watermark:** Optional subtle radial pattern at very low opacity (CSS only)
+- **Scanline overlay:** **REMOVED** — no `body::after` scanlines
+- **Hydrangea watermark:** `body::before` — CSS-only radial gradient pattern at 4.5% opacity with `mix-blend-mode: screen`. Elliptical bloom shapes positioned at upper-left and lower-right corners plus center.
+- **Smoked glass depth:** `body::after` — horizontal luminance band at ~30-70% viewport height, ~1.8% opacity. Adds subtle depth without visual noise.
 
 ### 5.2 `header`
-- **Background:** `var(--panel)`
+- **Background:** `linear-gradient(180deg, #120e1a 0%, var(--panel) 100%)`
 - **Border:** `1px solid var(--line)`
-- **Clip-path:** Softened: `polygon(0 0, 100% 0, 100% 75%, calc(100% - 20px) 100%, 20px 100%, 0 75%)`
-- **h1 text:** "THE PALACE" in Georgia, `var(--amethyst)`, letter-spacing: 8px
-- **Shadow:** `text-shadow: 0 0 20px var(--glow)`
+- **Border-radius:** `10px 10px 0 0` (rounded top, flush bottom)
+- **Box-shadow:** `inset 0 1px 0 rgba(155,109,255,.06), 0 1px 3px rgba(0,0,0,.3)` — smoked glass depth
+- **h1 text:** "THE PALACE" in Georgia, `var(--amethyst)`, letter-spacing: 3px, text-transform: uppercase
+- **Shadow:** `text-shadow: 0 0 12px var(--glow)`
 - **.sub text:** "J.Ai · THE PALACE // {connection state}" in `var(--txt-dim)`
 - **#clock:** Georgia, `var(--ok)`, letter-spacing: 2px
 
 ### 5.3 `.panel`
-- **Background:** `var(--panel)` with subtle inner shadow
+- **Background:** Three-stop linear gradient (smoked glass lacquer): `linear-gradient(165deg, rgba(18,14,26,.94) 0%, rgba(12,9,18,.9) 50%, rgba(14,10,20,.88) 100%)`
 - **Border:** `1px solid var(--line)`
-- **Clip-path:** Softened corners (20px equivalent)
-- **Inner shadow:** `inset 0 1px 0 var(--inner-glow)`
-- **On hover:** Subtle border brightening to `var(--border-hi)`
+- **Border-radius:** `10px` (rounded corners, no clip-path)
+- **Inner shadow:** `inset 0 1px 0 rgba(155,109,255,.06), inset 0 -1px 0 rgba(0,0,0,.2)`
+- **Outer shadow:** `0 2px 8px rgba(0,0,0,.25), 0 0 0 1px rgba(155,109,255,.03)`
+- **Transition:** `border-color .2s, box-shadow .2s` for smooth hover
+- **On hover:** Border brightens to `var(--border-hi)`, shadow deepens
 
 ### 5.4 `.panel h2` (Panel headings)
-- **Font:** Georgia, `var(--font-panel)` (10px, letter-spacing: 3px)
+- **Font:** Georgia, `var(--font-panel)` (11px, letter-spacing: 1.5px)
 - **Color:** `var(--amethyst)`
+- **Text-transform:** `capitalize`
 - **Border-bottom:** `1px solid var(--line)`
-- **Panel numbers (.num):** `var(--txt-dim)` — same treatment
+- **Panel numbers (.num):** `display: none` — hidden, not part of Palace visual language
 
 ### 5.5 `.kv` rows
-- **Font:** Rajdhani 13px
+- **Font:** System sans-serif 13px
 - **Label:** `var(--txt)` (default)
 - **Value (b):** `var(--ok)` — violet for online/success values
 - **Status dots:** `.dot.on` = `var(--ok)`, `.dot.off` = `var(--err)`
@@ -195,24 +202,25 @@ Grid: `grid-template-columns: 320px 1fr 320px; grid-template-rows: 54px 1fr 26px
 - **Flexbox column, centered**
 
 ### 5.7 `#reactorWrap`
-- **Size:** `min(46vh, 440px)` square
+- **Size:** `min(38vh, 360px)` square (reduced from original 46vh/440px)
+- **Margin:** `16px 0 8px` (visual breathing room)
 - **Cursor:** pointer
 - **Title:** "Click to talk" (unchanged)
 
 ### 5.8 `canvas#reactor`
-- **STATE_STYLE color mapping:**
-  - `standby`: color `#9b6dff` (amethyst), glow 18
-  - `listening`: color `#c084fc` (plum), glow 30
-  - `thinking`: color `#8b5cf6` (bloom), glow 26
-  - `tool`: color `#8b5cf6` (bloom), glow 32
-  - `speaking`: color `#9b6dff` (amethyst), glow 34
-  - `error`: color `#e8797f` (err), glow 22
+- **STATE_STYLE color mapping (calmer speeds/glow):**
+  - `standby`: color `#9b6dff` (amethyst), glow 12, speed .08
+  - `listening`: color `#c084fc` (plum), glow 22, speed .3
+  - `thinking`: color `#8b5cf6` (bloom), glow 18, speed .9
+  - `tool`: color `#8b5cf6` (bloom), glow 24, speed 1.2
+  - `speaking`: color `#9b6dff` (amethyst), glow 26, speed .4
+  - `error`: color `#e8797f` (err), glow 14, speed .03
 - **Core gradient:** Uses state color with alpha
-- **No functional changes** — only color values
+- **No functional changes** — only color/speed/glow values reduced for composed feel
 
 ### 5.9 `#coreState`
 - **Font:** Georgia (was Orbitron)
-- **.st (state label):** `var(--amethyst)`, letter-spacing: 6px, text-shadow with `var(--violet-glow)`
+- **.st (state label):** `var(--amethyst)`, font-size: 14px, letter-spacing: 3px, text-transform: uppercase, text-shadow with `var(--violet-glow)`
 - **.hint:** `var(--txt-dim)`, smaller
 
 ### 5.10 `#feed` (Message feed)
@@ -220,6 +228,7 @@ Grid: `grid-template-columns: 320px 1fr 320px; grid-template-rows: 54px 1fr 26px
 - **Messages (.msg):**
   - Background: `var(--panel)`
   - Border: `1px solid var(--line)`
+  - Border-radius: `8px`
   - Color: `var(--txt)`
 - **User messages (.msg.you):**
   - Border-color: `var(--amethyst)`
@@ -234,22 +243,27 @@ Grid: `grid-template-columns: 320px 1fr 320px; grid-template-rows: 54px 1fr 26px
 ### 5.11 `#chatRow` / `#chatInput`
 - **Input background:** `#0a0814`
 - **Border:** `1px solid var(--line)`
+- **Border-radius:** `8px`
+- **Font:** System sans-serif 14px
 - **Text color:** `var(--txt-bright)`
 - **Focus:** `border-color: var(--amethyst); box-shadow: 0 0 8px var(--glow)`
 
 ### 5.12 Buttons (`button.btn`)
-- **Background:** `#14101c`
+- **Background:** `linear-gradient(180deg, #1a1528 0%, #14101c 100%)` (filled)
 - **Color:** `var(--amethyst)`
-- **Border:** `1px solid var(--amethyst)`
-- **Font:** Georgia 11px, letter-spacing: 2px
-- **Hover:** `background: #1c1428; box-shadow: 0 0 10px var(--glow)`
-- **Danger variant:** Color `var(--err)`, border `var(--err)`, background `#1a0a0e`
-- **Amber variant (approval):** Color `var(--warn)`, border `var(--warn)`, background `#1a1208`
+- **Border:** `1px solid rgba(155,109,255,.35)`
+- **Border-radius:** `6px`
+- **Font:** System sans-serif 11px, letter-spacing: 1.5px
+- **Transition:** `background .15s, box-shadow .15s, border-color .15s`
+- **Hover:** `background: linear-gradient(180deg, #221c34 0%, #1c1428 100%); border-color: var(--amethyst); box-shadow: 0 0 10px var(--glow)`
+- **Danger variant:** Color `var(--err)`, border `#5a2030`, background `#1a0a0e`
+- **Amber variant (approval):** Color `var(--warn)`, border `#5a4020`, background `#1a1208`
 
 ### 5.13 Approval cards (`.appr`)
 - **Border:** `1px solid var(--warn)`
+- **Border-radius:** `10px`
 - **Background:** `#1a1208f2`
-- **Box-shadow:** `0 0 24px #d4a57444`
+- **Box shadow:** `0 0 24px #d4a57444`
 - **Heading:** Georgia, `var(--warn)`
 - **Pre text:** `var(--warn)` at slightly brighter shade
 
