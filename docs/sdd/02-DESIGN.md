@@ -288,8 +288,8 @@ Grid: `grid-template-columns: 320px 1fr 320px; grid-template-rows: 54px 1fr 26px
 - **Frame SVG stroke:** `var(--amethyst)` (was `var(--cyan)`)
 - **Bar background:** `var(--panel)`
 - **Bar text:** Georgia, `var(--amethyst)`
-- **Hex overlay:** Remove or replace with subtle hydrangea pattern
-- **Scan effect:** Replace cyan scan with violet scan
+- **Hex overlay:** Removed; the page-level hydrangea watermark supplies the restrained ambient geometry
+- **Scan effect:** Removed rather than recolored; no tactical scanning chrome remains
 
 ### 5.17 Progress bars (`.bar`)
 - **Background:** `#14101c`

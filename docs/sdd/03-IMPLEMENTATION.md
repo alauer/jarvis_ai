@@ -62,7 +62,9 @@ body::after{ /* scanlines */
 ```css
 body{
   background:radial-gradient(ellipse at 50% 38%, #0c0814 0%, var(--bg) 65%);
-  color:var(--txt); font-family:'Rajdhani',sans-serif; overflow:hidden;
+  color:var(--txt);
+  font-family:'Segoe UI',system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
+  overflow:hidden;
 }
 ```
 **Rationale:** Remove scanline overlay. Update gradient color from cyan-tinted to violet-tinted.
