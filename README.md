@@ -6,6 +6,11 @@ open-source autonomous agent). Talk to a *real* agent — one with persistent
 memory, terminal access, web search, file tools, and 80+ skills — through a
 glowing arc-reactor HUD in any browser on your LAN, or a push-to-talk client.
 
+> **Palace fork:** The appearance-only Palace reskin is complete. The current,
+> incremental Command Center POC and MVP sequence is documented in
+> [`docs/plans/2026-08-22-command-center-poc-mvp.md`](docs/plans/2026-08-22-command-center-poc-mvp.md).
+> Implementation begins with POC 0 only after explicit authorization.
+
 **Everything runs on your own hardware.** The only cloud calls are your LLM
 provider (via Hermes) and ElevenLabs for the voice. Speech-to-text is fully
 local (Whisper on CPU).
