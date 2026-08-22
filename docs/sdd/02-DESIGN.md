@@ -5,6 +5,12 @@
 **Branch:** design/palace-visual-reskin
 **Target file:** `server/hud/index.html`
 
+> **Status: COMPLETED FOUNDATION STAGE.** This document preserves the shipped
+> appearance-only Palace reskin design. The active project strategy and roadmap
+> are [`00-STRATEGY.md`](00-STRATEGY.md) and
+> [`04-ROADMAP.md`](04-ROADMAP.md). Future room design follows the incremental
+> POC and MVP gates rather than extending this reskin automatically.
+
 ---
 
 ## 1. Component Tree
@@ -359,4 +365,5 @@ Grid: `grid-template-columns: 320px 1fr 320px; grid-template-rows: 54px 1fr 26px
 
 ---
 
-*DESIGN complete. Proceed to IMPLEMENTATION phase.*
+*Foundation DESIGN completed and implemented in PR #1. Active project direction
+continues in `00-STRATEGY.md` and `04-ROADMAP.md`.*

@@ -6,6 +6,12 @@
 **Target file:** `server/hud/index.html` (single-file HUD, 885 lines)
 **Parent repo commit:** `88998de8369e9d36f6d434b5e01feb93fcf1c33f`
 
+> **Status: COMPLETED FOUNDATION STAGE.** This document preserves the shipped
+> appearance-only Palace reskin specification. The active project strategy and
+> roadmap are [`00-STRATEGY.md`](00-STRATEGY.md) and
+> [`04-ROADMAP.md`](04-ROADMAP.md). Do not treat this reskin scope as the current
+> Command Center product specification.
+
 ---
 
 ## 1. Purpose & Scope
@@ -264,4 +270,5 @@ All breakpoints must preserve:
 
 ---
 
-*SPEC complete. Proceed to DESIGN phase.*
+*Foundation SPEC completed and implemented in PR #1. Active project direction
+continues in `00-STRATEGY.md` and `04-ROADMAP.md`.*
