@@ -5,6 +5,12 @@
 **Branch:** design/palace-visual-reskin
 **Target:** `server/hud/index.html` (single-file HUD)
 
+> **Status: COMPLETED FOUNDATION STAGE.** This document preserves the shipped
+> appearance-only Palace reskin implementation plan. The current execution spine
+> is [`../plans/2026-08-22-command-center-poc-mvp.md`](../plans/2026-08-22-command-center-poc-mvp.md),
+> governed by [`00-STRATEGY.md`](00-STRATEGY.md) and
+> [`04-ROADMAP.md`](04-ROADMAP.md).
+
 ---
 
 ## 1. Implementation Strategy
@@ -248,4 +254,5 @@ Store under: `docs/review/baseline/`
 
 ---
 
-*IMPLEMENTATION plan complete. Ready to execute.*
+*Foundation IMPLEMENTATION completed in PR #1. Active execution now follows
+`../plans/2026-08-22-command-center-poc-mvp.md`.*

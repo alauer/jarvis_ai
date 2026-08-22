@@ -1,21 +1,31 @@
-# J.A.R.V.I.S — Voice + HUD for Hermes Agent
+# The Palace Command Center (working title)
 
-A self-hosted, Iron-Man-style voice assistant and command center built on top of
-[Hermes Agent](https://github.com/NousResearch/hermes-agent) (NousResearch's
-open-source autonomous agent). Talk to a *real* agent — one with persistent
-memory, terminal access, web search, file tools, and 80+ skills — through a
-glowing arc-reactor HUD in any browser on your LAN, or a push-to-talk client.
+A private, self-hosted shared room where Aaron and Jeeves can converse, judge,
+and operate The Palace together through
+[Hermes Agent](https://github.com/NousResearch/hermes-agent).
 
-> **Palace fork:** The appearance-only Palace reskin is complete. The current,
-> incremental Command Center POC and MVP sequence is documented in
-> [`docs/plans/2026-08-22-command-center-poc-mvp.md`](docs/plans/2026-08-22-command-center-poc-mvp.md).
-> Implementation begins with POC 0 only after explicit authorization.
+This repository began as the `jarvis_ai` voice-and-HUD project. Its browser
+voice pipeline, operational controls, persistent Hermes session, and artifact
+panels are the inherited nervous system. The Palace fork is evolving that
+foundation into a room with presence, continuity, identity, and trust.
+
+> **Project status:** The Palace visual foundation is complete. The current
+> stage is the Nervous System POC. Start with the
+> [`SDD index`](docs/sdd/README.md), then read the
+> [`strategy`](docs/sdd/00-STRATEGY.md),
+> [`roadmap`](docs/sdd/04-ROADMAP.md), and
+> [`incremental POC/MVP plan`](docs/plans/2026-08-22-command-center-poc-mvp.md).
+> The final project name will be chosen in a dedicated naming pass tailored to
+> Jeeves. POC 0 begins only after specific implementation authorization.
 
 **Everything runs on your own hardware.** The only cloud calls are your LLM
 provider (via Hermes) and ElevenLabs for the voice. Speech-to-text is fully
 local (Whisper on CPU).
 
-## Demo
+## Original system demo
+
+The upstream demo shows the inherited voice and operational mechanics before
+the Palace strategy and visual foundation were applied.
 
 [![Watch the J.A.R.V.I.S demo](https://img.youtube.com/vi/YNI9pm3h6x8/hqdefault.jpg)](https://youtu.be/YNI9pm3h6x8)
 
@@ -140,7 +150,7 @@ client/          optional Windows/Linux push-to-talk Python client (wake word ca
 worker/          optional GPU sidecars: big-model STT server + stats agent for the Machines panel
 hermes-plugin/   Hermes tool plugin: lets the agent summon/dismiss HUD media panels
 launchd/         macOS auto-start templates with hard-won TCC + FD-limit notes
-docs/            SETUP, ARCHITECTURE (protocols/endpoints), TROUBLESHOOTING
+docs/            SDD strategy/roadmap, execution plans, setup, architecture, troubleshooting
 ```
 
 ## Security model
@@ -162,4 +172,4 @@ STT by [faster-whisper](https://github.com/SYSTRAN/faster-whisper) /
 [RealtimeSTT](https://github.com/KoljaB/RealtimeSTT). Voice by
 [ElevenLabs](https://elevenlabs.io).
 
-MIT — see [LICENSE](LICENSE). Use it, fork it, build your own Jarvis.
+MIT — see [LICENSE](LICENSE). Use it, fork it, build something alive.

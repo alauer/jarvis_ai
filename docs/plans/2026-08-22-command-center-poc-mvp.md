@@ -2,7 +2,7 @@
 
 > **For Hermes:** Implement one increment at a time. Demonstrate and verify each increment before beginning the next. Use `subagent-driven-development` only after Aaron authorizes implementation.
 
-**Status:** Proposed delivery plan, not implementation authorization
+**Status:** Governing delivery plan. Approved for the project roadmap; each implementation increment remains separately authorized.
 
 **Goal:** Prove and then deliver one persistent shared Command Center room where Aaron and Jeeves can converse, judge, and act together through the current Hermes runtime.
 
@@ -10,7 +10,11 @@
 
 **Tech stack:** Current Hermes API Server, Python/FastAPI, browser WebSocket and audio APIs, vanilla HTML/CSS/JavaScript for the first proof, Palace gateway TLS.
 
-**Design philosophy:** `/home/jeeves/Projects/palace-command-center/planning/COMMAND_CENTER_PRESENCE_PHILOSOPHY.md`
+**Governing SDD strategy:** [`../sdd/00-STRATEGY.md`](../sdd/00-STRATEGY.md)
+
+**High-level roadmap:** [`../sdd/04-ROADMAP.md`](../sdd/04-ROADMAP.md)
+
+**Strategic archive:** `/home/jeeves/Projects/palace-command-center/planning/COMMAND_CENTER_PRESENCE_PHILOSOPHY.md`
 
 **Strategic research:**
 - `/home/jeeves/Projects/palace-command-center/research/palace_customization_brief.md`
@@ -20,13 +24,15 @@
 
 ## 1. Current State
 
-The repository currently contains a completed SDD package for the Palace visual reskin:
+The SDD index at [`../sdd/README.md`](../sdd/README.md) separates the governing project strategy from the completed Palace visual-reskin record.
+
+The repository contains a completed SDD package for that foundation stage:
 
 - `docs/sdd/01-SPEC.md`
 - `docs/sdd/02-DESIGN.md`
 - `docs/sdd/03-IMPLEMENTATION.md`
 
-That package describes the already-merged appearance-only work in PR #1. It is not a current POC or MVP execution plan.
+That package describes the already-merged appearance-only work in PR #1. It is historical foundation truth, not the current POC or MVP execution plan.
 
 The strategic archive contains a strong Phase 0 through Phase 3 direction, but it predates the clarified room model and groups too many risks into each phase. This document replaces that delivery sequence without rewriting the historical research.
 
